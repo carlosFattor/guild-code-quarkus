@@ -1,0 +1,53 @@
+quarkus:
+  http:
+    so-reuse-port: true
+    tcp-quick-ack: true
+    tcp-cork: true
+    tcp-fast-open: true
+  vertx:
+    prefer-native-transport: true
+  application:
+    name: guild-code
+  default-locale: pt-BR
+#  jwt:
+#    enabled: true
+#    secret: s#cr#t2o2o
+  log:
+    level: INFO
+
+"%local":
+  quarkus:
+    http:
+      so-reuse-port: true
+      tcp-quick-ack: true
+      tcp-cork: true
+      tcp-fast-open: true
+    vertx:
+      prefer-native-transport: true
+#    jwt:
+#      enabled: false
+#      secret: s#cr#t2o2o
+    mongodb:
+      connection-string: mongodb://127.0.0.1:27017
+      database: checkout
+    log:
+      sql: true
+      level: INFO
+
+"%docker":
+  quarkus:
+    http:
+      so-reuse-port: true
+      tcp-quick-ack: true
+      tcp-cork: true
+      tcp-fast-open: true
+    vertx:
+      prefer-native-transport: true
+    mongodb:
+      connection-string: mongodb://${MONGO_USER}:${MONGO_PWD}@${MONGO_URL}/?replicaset=${MONGO_REPLICASET}&readPreference=secondaryPreferred&authSource=admin
+      database: ${MONGO_DATABASE}
+#    jwt:
+#      enabled: true
+#      secret: ${JWT_SECRET}
+    log:
+      level: INFO
