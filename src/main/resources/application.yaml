@@ -9,9 +9,9 @@ quarkus:
   application:
     name: guild-code
   default-locale: pt-BR
-#  jwt:
-#    enabled: true
-#    secret: s#cr#t2o2o
+  #  jwt:
+  #    enabled: true
+  #    secret: s#cr#t2o2o
   log:
     level: INFO
 
@@ -24,9 +24,9 @@ quarkus:
       tcp-fast-open: true
     vertx:
       prefer-native-transport: true
-#    jwt:
-#      enabled: false
-#      secret: s#cr#t2o2o
+    #    jwt:
+    #      enabled: false
+    #      secret: s#cr#t2o2o
     mongodb:
       connection-string: mongodb://127.0.0.1:27017
       database: checkout
@@ -46,8 +46,8 @@ quarkus:
     mongodb:
       connection-string: mongodb://${MONGO_USER}:${MONGO_PWD}@${MONGO_URL}/?replicaset=${MONGO_REPLICASET}&readPreference=secondaryPreferred&authSource=admin
       database: ${MONGO_DATABASE}
-#    jwt:
-#      enabled: true
-#      secret: ${JWT_SECRET}
+    #    jwt:
+    #      enabled: true
+    #      secret: ${JWT_SECRET}
     log:
       level: INFO

@@ -15,26 +15,40 @@ import javax.json.bind.Jsonb;
 import javax.ws.rs.core.MediaType;
 
 @RequestScoped
-@RouteBase(path = "api/v1", consumes = MediaType.APPLICATION_JSON, produces = MediaType.APPLICATION_JSON)
+@RouteBase(path = "api/v1")
 public class GitHubUserRestEntryPoint implements GitHubUserEntryPoint {
+
+    private final String URL_REDIRECT = "https://github.com/login/oauth/authorize";
+    private final String clientId = "d3a25e9930e91076515c";
 
     @Inject
     Jsonb jsonb;
 
     @Inject
-    GithubService githubServise;
+    GithubService githubService;
 
     @Override
-    @Route(path = "/users/github/:token", methods = HttpMethod.GET)
+    @Route(path = "/users/github", methods = HttpMethod.GET)
     public void add(RoutingExchange re) {
-        System.out.println("Teste#################");
-        var gitTokenDto = new AddGithubUserRequestDto();
-        gitTokenDto.setToken(re.context().pathParam("token"));
 
-        githubServise.handle(gitTokenDto).subscribe().with(resp -> {
+        var gitTokenDto = new AddGithubUserRequestDto();
+        var queryParams = re.context().queryParam("code");
+        gitTokenDto.setToken(queryParams.get(0));
+
+        githubService.handle(gitTokenDto).subscribe().with(resp -> {
             Responses.DONE(re, resp, jsonb);
         }, error -> {
             re.response().end(error.getLocalizedMessage());
         });
+    }
+
+    @Route(path = "/users/github/login/redirect")
+    public void redirect(RoutingExchange re) {
+        var url = new StringBuilder()
+                .append(URL_REDIRECT)
+                .append("?client_id=").append(clientId).toString();
+        re.response().putHeader("location", url);
+        re.response().setStatusCode(302);
+        re.response().end();
     }
 }

@@ -14,8 +14,8 @@ import javax.inject.Inject;
 public class GitHubApi {
 
     private final String URL_BASE = "/login/oauth/access_token";
-    private String clientId = "7c88c94314b715f98752";
-    private String clientSecret = "23d2d25acc0e48d47fe40aca3c20c99df0c703e9";
+    private final String clientId = "d3a25e9930e91076515c";
+    private final String clientSecret = "aa0337d0f101032cf1e38b11b7371c23aebb6647";
 
     @Inject
     Vertx vertx;
@@ -58,10 +58,9 @@ public class GitHubApi {
     }
 
     public Uni<JsonObject> getGithubUserInfo(final String githubToken) {
-        var token = this.sanitizeToken(githubToken);
         return clientGitApi.get("/user")
                 .putHeader("accept", "application/json")
-                .putHeader("Authorization", new StringBuilder().append("token ").append(token).toString())
+                .putHeader("Authorization", new StringBuilder().append("Bearer ").append(githubToken).toString())
                 .send()
                 .onItem().transform(resp -> {
                     if (resp.statusCode() == 200) {
@@ -72,7 +71,6 @@ public class GitHubApi {
                                 .put("message", resp.bodyAsString());
                     }
                 });
-
     }
 
     private String sanitizeToken(String githubToken) {

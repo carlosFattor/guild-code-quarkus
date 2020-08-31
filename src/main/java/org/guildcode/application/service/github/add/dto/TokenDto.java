@@ -6,4 +6,12 @@ import lombok.Data;
 public class TokenDto {
     
     private String token;
+    private String type;
+
+    public TokenDto() {
+    }
+
+    public TokenDto(String token) {
+        this.token = token;
+    }
 }

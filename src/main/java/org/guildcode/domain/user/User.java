@@ -16,15 +16,10 @@ public class User {
     private String id;
     private String email;
     private String password;
-    private Names names;
-    private String avatarUrl;
-    private String biography;
-    private String blog;
-    private String gitIg;
-    private Integer publicRepos;
-    private String reposUrl;
+    private String name;
     private Collection<String> tags;
     private Location location;
     private Collection<Role> roles;
+    private GithubInfo gitInfo;
 
 }
