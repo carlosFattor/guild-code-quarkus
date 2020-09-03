@@ -12,7 +12,6 @@ import org.guildcode.infrastructure.responses.Responses;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.json.bind.Jsonb;
-import javax.ws.rs.core.MediaType;
 
 @RequestScoped
 @RouteBase(path = "api/v1")

@@ -72,9 +72,4 @@ public class GitHubApi {
                     }
                 });
     }
-
-    private String sanitizeToken(String githubToken) {
-        var token = githubToken.split("=")[1];
-        return token.split("&")[0];
-    }
 }
