@@ -29,7 +29,7 @@ quarkus:
     #      secret: s#cr#t2o2o
     mongodb:
       connection-string: mongodb://127.0.0.1:27017
-      database: checkout
+      database: guild-code
     log:
       sql: true
       level: INFO

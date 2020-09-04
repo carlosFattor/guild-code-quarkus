@@ -4,6 +4,9 @@ package org.guildcode.domain.user;
 import io.quarkus.mongodb.panache.MongoEntity;
 import lombok.Data;
 import org.bson.codecs.pojo.annotations.BsonId;
+import org.bson.codecs.pojo.annotations.BsonProperty;
+import org.bson.types.ObjectId;
+import org.guildcode.application.service.github.add.dto.GithubUserDto;
 import org.guildcode.domain.enums.Role;
 
 import java.util.Collection;
@@ -13,7 +16,7 @@ import java.util.Collection;
 public class User {
 
     @BsonId
-    private String id;
+    private ObjectId id;
     private String email;
     private String password;
     private String name;
@@ -22,4 +25,12 @@ public class User {
     private Collection<Role> roles;
     private GithubInfo gitInfo;
 
+    public User() {
+    }
+
+    public User(GithubUserDto userGit) {
+        this.gitInfo = new GithubInfo(userGit);
+        this.email = userGit.getEmail();
+        this.name = userGit.getName();
+    }
 }

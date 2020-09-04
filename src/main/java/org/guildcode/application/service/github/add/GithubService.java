@@ -6,9 +6,7 @@ import org.guildcode.application.result.ResponseResult;
 import org.guildcode.application.result.ResponseResults;
 import org.guildcode.application.result.ResponseStatus;
 import org.guildcode.application.service.ReactiveService;
-import org.guildcode.application.service.github.add.dto.AddGithubUserRequestDto;
-import org.guildcode.application.service.github.add.dto.GithubUserDto;
-import org.guildcode.application.service.github.add.dto.TokenDto;
+import org.guildcode.application.service.github.add.dto.*;
 import org.guildcode.domain.user.User;
 import org.guildcode.domain.user.repository.UserRepository;
 import org.guildcode.infrastructure.service.github.GitHubApi;
@@ -17,6 +15,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.json.bind.Jsonb;
 import javax.validation.ValidationException;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -49,13 +48,21 @@ public class GithubService implements ReactiveService<AddGithubUserRequestDto> {
                     throw new ValidationException("Was not possible get user info from github");
                 })
                 .flatMap(gitParsed -> this.findUser.apply(gitParsed))
-                .map(userParsed -> this.updateUserInfo.apply(userParsed))
-                .map(user -> new ResponseResult(ResponseStatus.OK))
+                .onItem().ifNull().failWith(() -> {
+                    throw new ValidationException("Was not found an user");
+                })
+                .flatMap(userParsed -> this.updateUserInfo.apply(userParsed))
+                .map(userData -> this.generateTokens.apply(userData))
+                .map(resp -> toResponse.apply(resp))
                 .onFailure()
                 .recoverWithItem((error) -> {
                     return ResponseResults.badRequestFromDescriptions(error.getMessage());
                 });
     }
+
+    Function<AddGithubUserResponseDto, ResponseResult> toResponse = resp -> {
+        return new ResponseResult(ResponseStatus.CREATED, resp);
+    };
 
     Function<TokenDto, Uni<GithubUserDto>> getUserInfoFromGithub = token -> {
         if (token.getToken() != null) {
@@ -75,19 +82,16 @@ public class GithubService implements ReactiveService<AddGithubUserRequestDto> {
         return new TokenDto(gitToken.getString("access_token"));
     };
 
-    private User fillUser(GithubUserDto user) {
-
-        return null;
-    }
-
-    Function<User, User> updateUserInfo = userData -> {
-
-        return null;
+    Function<User, Uni<User>> updateUserInfo = userData -> {
+        return userRepository.persistOrUpdate(userData)
+                .onItem()
+                .transform((data) -> userData);
     };
 
-    Function<User, TokenDto> generateTokens = user -> {
-
-        return null;
+    Function<User, AddGithubUserResponseDto> generateTokens = user -> {
+        var resp = new AddGithubUserResponseDto();
+        resp.setUser(new BasicUserDto(user));
+        return resp;
     };
 
     Function<GithubUserDto, Uni<User>> findUser = gitInfo -> {
@@ -95,6 +99,6 @@ public class GithubService implements ReactiveService<AddGithubUserRequestDto> {
         return userRepository.find(query, gitInfo.getEmail())
                 .firstResult()
                 .onItem()
-                .ifNull().continueWith(User::new);
+                .transform(userGit -> Objects.requireNonNullElseGet(userGit, () -> new User(gitInfo)));
     };
 }
