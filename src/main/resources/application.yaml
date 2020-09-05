@@ -33,6 +33,10 @@ quarkus:
     log:
       sql: true
       level: INFO
+  git:
+    clientId: "d3a25e9930e91076515c"
+    clientSecret: "aa0337d0f101032cf1e38b11b7371c23aebb6647"
+    URL_GITHUB_REDIRECT: "https://github.com/login/oauth/authorize"
 
 "%docker":
   quarkus:
@@ -51,3 +55,7 @@ quarkus:
     #      secret: ${JWT_SECRET}
     log:
       level: INFO
+  git:
+    clientId: "${clientId}"
+    clientSecret: "${clientSecret}"
+    URL_GITHUB_REDIRECT: "https://github.com/login/oauth/authorize"

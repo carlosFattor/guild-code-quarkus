@@ -10,6 +10,7 @@ import org.guildcode.application.service.github.add.dto.*;
 import org.guildcode.domain.user.User;
 import org.guildcode.domain.user.repository.UserRepository;
 import org.guildcode.infrastructure.service.github.GitHubApi;
+import org.jboss.logging.Logger;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -17,8 +18,6 @@ import javax.json.bind.Jsonb;
 import javax.validation.ValidationException;
 import java.util.Objects;
 import java.util.function.Function;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 @RequestScoped
 public class GithubService implements ReactiveService<AddGithubUserRequestDto> {
@@ -56,6 +55,7 @@ public class GithubService implements ReactiveService<AddGithubUserRequestDto> {
                 .map(resp -> toResponse.apply(resp))
                 .onFailure()
                 .recoverWithItem((error) -> {
+                    LOGGER.error(error.getMessage(), error);
                     return ResponseResults.badRequestFromDescriptions(error.getMessage());
                 });
     }
@@ -76,7 +76,7 @@ public class GithubService implements ReactiveService<AddGithubUserRequestDto> {
 
     Function<JsonObject, TokenDto> validateToken = gitToken -> {
         if (gitToken.containsKey("error")) {
-            LOGGER.log(Level.INFO, "It's not possible to get data from github, invalid token");
+            LOGGER.error("It's not possible to get data from github, invalid token");
             return null;
         }
         return new TokenDto(gitToken.getString("access_token"));

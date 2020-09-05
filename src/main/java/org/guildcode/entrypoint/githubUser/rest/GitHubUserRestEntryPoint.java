@@ -1,9 +1,8 @@
 package org.guildcode.entrypoint.githubUser.rest;
 
-import io.quarkus.vertx.web.Route;
-import io.quarkus.vertx.web.RouteBase;
-import io.quarkus.vertx.web.RoutingExchange;
+import io.quarkus.vertx.web.*;
 import io.vertx.core.http.HttpMethod;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.guildcode.application.service.github.add.GithubService;
 import org.guildcode.application.service.github.add.dto.AddGithubUserRequestDto;
 import org.guildcode.entrypoint.githubUser.GitHubUserEntryPoint;
@@ -17,8 +16,11 @@ import javax.json.bind.Jsonb;
 @RouteBase(path = "api/v1")
 public class GitHubUserRestEntryPoint implements GitHubUserEntryPoint {
 
-    private final String URL_REDIRECT = "https://github.com/login/oauth/authorize";
-    private final String clientId = "d3a25e9930e91076515c";
+    @ConfigProperty(name = "git.URL_GITHUB_REDIRECT")
+    private String URL_GITHUB_REDIRECT;
+
+    @ConfigProperty(name = "git.clientId")
+    private String clientId;
 
     @Inject
     Jsonb jsonb;
@@ -28,11 +30,10 @@ public class GitHubUserRestEntryPoint implements GitHubUserEntryPoint {
 
     @Override
     @Route(path = "/users/github", methods = HttpMethod.GET)
-    public void add(RoutingExchange re) {
+    public void add(RoutingExchange re, @Param String code) {
 
         var gitTokenDto = new AddGithubUserRequestDto();
-        var queryParams = re.context().queryParam("code");
-        gitTokenDto.setToken(queryParams.get(0));
+        gitTokenDto.setToken(code);
 
         githubService.handle(gitTokenDto).subscribe().with(resp -> {
             Responses.DONE(re, resp, jsonb);
@@ -44,7 +45,7 @@ public class GitHubUserRestEntryPoint implements GitHubUserEntryPoint {
     @Route(path = "/users/github/login/redirect")
     public void redirect(RoutingExchange re) {
         var url = new StringBuilder()
-                .append(URL_REDIRECT)
+                .append(URL_GITHUB_REDIRECT)
                 .append("?client_id=").append(clientId).toString();
         re.response().putHeader("location", url);
         re.response().setStatusCode(302);

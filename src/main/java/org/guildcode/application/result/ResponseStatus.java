@@ -6,7 +6,7 @@ public enum ResponseStatus {
     ACCEPTED,
     NO_CONTENT,
     BAD_REQUEST,
-    UNPROCESSABLE,
+    UNPROCESSED,
     UNAUTHORIZED,
     NOT_FOUND,
     INTERNAL_SERVER_ERROR;
@@ -34,7 +34,7 @@ public enum ResponseStatus {
                 return 204;
             case BAD_REQUEST:
                 return 400;
-            case UNPROCESSABLE:
+            case UNPROCESSED:
                 return 422;
             case UNAUTHORIZED:
                 return 401;

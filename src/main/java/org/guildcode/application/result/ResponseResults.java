@@ -67,33 +67,33 @@ public final class ResponseResults {
         return new ResponseResult(ResponseStatus.UNAUTHORIZED, response);
     }
 
-    public static ResponseResult unprocessable() {
-        return new ResponseResult(ResponseStatus.UNPROCESSABLE);
+    public static ResponseResult unprocessed() {
+        return new ResponseResult(ResponseStatus.UNPROCESSED);
     }
 
-    public static ResponseResult unprocessable(FailureResponseDto response) {
-        return new ResponseResult(ResponseStatus.UNPROCESSABLE, response);
+    public static ResponseResult unprocessed(FailureResponseDto response) {
+        return new ResponseResult(ResponseStatus.UNPROCESSED, response);
     }
 
-    public static ResponseResult unprocessableFromDetailsList(List<FailureDetailDto> details) {
+    public static ResponseResult unprocessedFromDetailsList(List<FailureDetailDto> details) {
         FailureResponseDto badRequestResponse = new FailureResponseDto();
         badRequestResponse.setDetails(details);
-        return new ResponseResult(ResponseStatus.UNPROCESSABLE, badRequestResponse);
+        return new ResponseResult(ResponseStatus.UNPROCESSED, badRequestResponse);
     }
 
-    public static ResponseResult unprocessableFromDetailsArray(FailureDetailDto... details) {
+    public static ResponseResult unprocessedFromDetailsArray(FailureDetailDto... details) {
         Objects.requireNonNull(details);
         FailureResponseDto badRequestResponse = new FailureResponseDto();
         badRequestResponse.setDetails(Arrays.asList(details));
-        return new ResponseResult(ResponseStatus.UNPROCESSABLE, badRequestResponse);
+        return new ResponseResult(ResponseStatus.UNPROCESSED, badRequestResponse);
     }
 
-    public static <T> ResponseResult unprocessableFromFailedResult(Result<T> result, Object hostData) {
+    public static <T> ResponseResult unprocessedFromFailedResult(Result<T> result, Object hostData) {
         Objects.requireNonNull(result);
         if (result.hasSucceeded()) {
             throw new IllegalArgumentException("'result' have not failed.");
         } else {
-            List<FailureDetailDto> details = (List) result.getFailureDetails().stream().map((failureDetail) -> {
+            List<FailureDetailDto> details = (List<FailureDetailDto>) result.getFailureDetails().stream().map((failureDetail) -> {
                 FailureDetailDto failureReqDetail = new FailureDetailDto();
                 failureReqDetail.setDescription(failureDetail.getDescription());
                 failureReqDetail.setTag(failureDetail.getTag());
@@ -102,37 +102,37 @@ public final class ResponseResults {
             }).collect(Collectors.toList());
             FailureResponseDto failureResponse = new FailureResponseDto();
             failureResponse.setDetails(details);
-            return new ResponseResult(ResponseStatus.UNPROCESSABLE, failureResponse);
+            return new ResponseResult(ResponseStatus.UNPROCESSED, failureResponse);
         }
     }
 
-    public static <T> ResponseResult unprocessableFromConstraintViolation(Set<ConstraintViolation<T>> constraintViolations) {
+    public static <T> ResponseResult unprocessedFromConstraintViolation(Set<ConstraintViolation<T>> constraintViolations) {
         Objects.requireNonNull(constraintViolations);
         if (constraintViolations.isEmpty()) {
             throw new IllegalArgumentException("'result' have not failed.");
         } else {
-            List<FailureDetailDto> details = (List) constraintViolations.stream().map((failure) -> {
+            List<FailureDetailDto> details = (List<FailureDetailDto>) constraintViolations.stream().map((failure) -> {
                 FailureDetailDto failureReqDetail = new FailureDetailDto();
                 failureReqDetail.setDescription(String.join(" ", failure.getPropertyPath().toString(), failure.getMessage()));
                 return failureReqDetail;
             }).collect(Collectors.toList());
             FailureResponseDto failureResponse = new FailureResponseDto();
             failureResponse.setDetails(details);
-            return new ResponseResult(ResponseStatus.UNPROCESSABLE, failureResponse);
+            return new ResponseResult(ResponseStatus.UNPROCESSED, failureResponse);
         }
     }
 
-    public static <T> ResponseResult unprocessableFromFailedResult(Result<T> result) {
-        return unprocessableFromFailedResult(result, (Object) null);
+    public static <T> ResponseResult unprocessedFromFailedResult(Result<T> result) {
+        return unprocessedFromFailedResult(result, (Object) null);
     }
 
-    public static ResponseResult unprocessableFromDescriptions(String... descriptions) {
-        List<FailureDetailDto> details = descriptions == null ? null : (List) Arrays.stream(descriptions).map((description) -> {
+    public static ResponseResult unprocessedFromDescriptions(String... descriptions) {
+        List<FailureDetailDto> details = (descriptions == null) ? null : (List) Arrays.stream(descriptions).map((description) -> {
             FailureDetailDto failureDetail = new FailureDetailDto();
             failureDetail.setDescription(description);
             return failureDetail;
         }).collect(Collectors.toList());
-        return unprocessableFromDetailsList(details);
+        return unprocessedFromDetailsList(details);
     }
 
     public static ResponseResult badRequestFromDetailsList(List<FailureDetailDto> details) {

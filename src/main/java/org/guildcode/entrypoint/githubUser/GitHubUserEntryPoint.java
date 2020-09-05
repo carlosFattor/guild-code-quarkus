@@ -4,5 +4,5 @@ import io.quarkus.vertx.web.RoutingExchange;
 
 public interface GitHubUserEntryPoint {
 
-    void add(RoutingExchange re);
+    void add(RoutingExchange re, String code);
 }

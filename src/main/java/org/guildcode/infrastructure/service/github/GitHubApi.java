@@ -5,6 +5,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.client.WebClientOptions;
 import io.vertx.mutiny.core.Vertx;
 import io.vertx.mutiny.ext.web.client.WebClient;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -14,8 +15,12 @@ import javax.inject.Inject;
 public class GitHubApi {
 
     private final String URL_BASE = "/login/oauth/access_token";
-    private final String clientId = "d3a25e9930e91076515c";
-    private final String clientSecret = "aa0337d0f101032cf1e38b11b7371c23aebb6647";
+
+    @ConfigProperty(name = "git.clientId")
+    private String clientId;
+
+    @ConfigProperty(name = "git.clientSecret")
+    private String clientSecret;
 
     @Inject
     Vertx vertx;
