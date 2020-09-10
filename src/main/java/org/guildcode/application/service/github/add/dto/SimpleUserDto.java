@@ -2,17 +2,15 @@ package org.guildcode.application.service.github.add.dto;
 
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.guildcode.domain.user.SimpleUser;
 import org.guildcode.domain.user.User;
 
 import java.util.Collection;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
-public class SimpleUserDto {
-
-    private String email;
-    private String name;
-    private String avatarUrl;
-    private Collection<String> tags;
+public class SimpleUserDto extends SimpleUser {
 
     public SimpleUserDto(User user) {
         this.email = user.getEmail();

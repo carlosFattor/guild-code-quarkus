@@ -9,6 +9,7 @@ import org.bson.types.ObjectId;
 import org.guildcode.application.service.github.add.dto.GithubUserDto;
 import org.guildcode.domain.enums.Role;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 @Data
@@ -32,5 +33,7 @@ public class User {
         this.gitInfo = new GithubInfo(userGit);
         this.email = userGit.getEmail();
         this.name = userGit.getName();
+        this.roles = new ArrayList<>();
+        this.roles.add(Role.USER);
     }
 }

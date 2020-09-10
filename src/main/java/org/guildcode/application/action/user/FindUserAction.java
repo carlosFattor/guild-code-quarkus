@@ -1,4 +1,4 @@
-package org.guildcode.action.user;
+package org.guildcode.application.action.user;
 
 
 import io.vertx.core.AbstractVerticle;

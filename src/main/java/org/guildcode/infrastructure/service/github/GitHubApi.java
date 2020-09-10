@@ -14,13 +14,13 @@ import javax.inject.Inject;
 @RequestScoped
 public class GitHubApi {
 
-    private final String URL_BASE = "/login/oauth/access_token";
+    final String URL_BASE = "/login/oauth/access_token";
 
     @ConfigProperty(name = "git.clientId")
-    private String clientId;
+    String clientId;
 
     @ConfigProperty(name = "git.clientSecret")
-    private String clientSecret;
+    String clientSecret;
 
     @Inject
     Vertx vertx;

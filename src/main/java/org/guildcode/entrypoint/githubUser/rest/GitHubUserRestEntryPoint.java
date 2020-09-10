@@ -13,14 +13,13 @@ import javax.inject.Inject;
 import javax.json.bind.Jsonb;
 
 @RequestScoped
-@RouteBase(path = "api/v1")
 public class GitHubUserRestEntryPoint implements GitHubUserEntryPoint {
 
     @ConfigProperty(name = "git.URL_GITHUB_REDIRECT")
-    private String URL_GITHUB_REDIRECT;
+    String URL_GITHUB_REDIRECT;
 
     @ConfigProperty(name = "git.clientId")
-    private String clientId;
+    String clientId;
 
     @Inject
     Jsonb jsonb;
@@ -46,7 +45,8 @@ public class GitHubUserRestEntryPoint implements GitHubUserEntryPoint {
     public void redirect(RoutingExchange re) {
         var url = new StringBuilder()
                 .append(URL_GITHUB_REDIRECT)
-                .append("?client_id=").append(clientId).toString();
+                .append("?client_id=")
+                .append(clientId).toString();
         re.response().putHeader("location", url);
         re.response().setStatusCode(302);
         re.response().end();
