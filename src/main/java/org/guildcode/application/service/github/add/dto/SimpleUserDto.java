@@ -1,12 +1,11 @@
 package org.guildcode.application.service.github.add.dto;
 
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import org.guildcode.domain.user.SimpleUser;
 import org.guildcode.domain.user.User;
 
-import java.util.Collection;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
 @Data

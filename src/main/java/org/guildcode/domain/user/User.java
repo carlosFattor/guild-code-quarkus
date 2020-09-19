@@ -1,16 +1,16 @@
 package org.guildcode.domain.user;
 
 
-import io.quarkus.mongodb.panache.MongoEntity;
-import lombok.Data;
+import java.util.ArrayList;
+import java.util.Collection;
+
 import org.bson.codecs.pojo.annotations.BsonId;
-import org.bson.codecs.pojo.annotations.BsonProperty;
 import org.bson.types.ObjectId;
 import org.guildcode.application.service.github.add.dto.GithubUserDto;
 import org.guildcode.domain.enums.Role;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import io.quarkus.mongodb.panache.MongoEntity;
+import lombok.Data;
 
 @Data
 @MongoEntity(collection = "user")

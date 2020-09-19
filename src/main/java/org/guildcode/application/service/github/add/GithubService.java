@@ -1,27 +1,32 @@
 package org.guildcode.application.service.github.add;
 
-import io.smallrye.mutiny.Uni;
-import io.vertx.core.json.JsonObject;
-import io.vertx.mutiny.core.eventbus.EventBus;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
+import java.time.LocalDateTime;
+import java.util.Objects;
+import java.util.function.Function;
+
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
+import javax.json.bind.Jsonb;
+import javax.validation.ValidationException;
+
 import org.guildcode.application.result.ResponseResult;
 import org.guildcode.application.result.ResponseResults;
 import org.guildcode.application.result.ResponseStatus;
 import org.guildcode.application.service.ReactiveService;
-import org.guildcode.application.service.github.add.dto.*;
+import org.guildcode.application.service.github.add.dto.AddGithubUserRequestDto;
+import org.guildcode.application.service.github.add.dto.AddGithubUserResponseDto;
+import org.guildcode.application.service.github.add.dto.BasicUserDto;
+import org.guildcode.application.service.github.add.dto.GithubUserDto;
+import org.guildcode.application.service.github.add.dto.TokenDto;
 import org.guildcode.domain.user.User;
 import org.guildcode.domain.user.repository.UserRepository;
 import org.guildcode.infrastructure.service.github.GitHubApi;
 import org.guildcode.security.jwt.JwtCreateToken;
 import org.jboss.logging.Logger;
 
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
-import javax.json.bind.Jsonb;
-import javax.validation.ValidationException;
-import java.time.LocalDateTime;
-import java.util.Objects;
-import java.util.function.Function;
+import io.smallrye.mutiny.Uni;
+import io.vertx.core.json.JsonObject;
+import io.vertx.mutiny.core.eventbus.EventBus;
 
 @RequestScoped
 public class GithubService implements ReactiveService<AddGithubUserRequestDto> {

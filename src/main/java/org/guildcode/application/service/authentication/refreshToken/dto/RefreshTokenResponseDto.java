@@ -1,4 +1,4 @@
-package org.guildcode.application.service.authentication.dto;
+package org.guildcode.application.service.authentication.refreshToken.dto;
 
 import lombok.Data;
 import org.guildcode.application.dto.Dto;

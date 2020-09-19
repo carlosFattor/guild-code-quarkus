@@ -18,10 +18,6 @@ public class Responses {
 
     public static void DONE(final RoutingExchange re, final ResponseResult resp) {
         re.context().response().setStatusCode(resp.getStatus().toNumber());
-        if (resp.getResponse().isPresent()) {
-            re.response().end();
-        } else {
-            re.response().end();
-        }
+        re.response().end();
     }
 }

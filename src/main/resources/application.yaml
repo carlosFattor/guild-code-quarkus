@@ -1,5 +1,6 @@
 quarkus:
   http:
+    port: 3000
     so-reuse-port: true
     tcp-quick-ack: true
     tcp-cork: true
@@ -11,15 +12,19 @@ quarkus:
     database: guild-code
   log:
     level: INFO
+    min-level: CONFIG
+    syslog:
+      async:
+        overflow: BLOCK
     handler:
       gelf:
         enable: true
         host: localhost
         port: 12201
 
-  jwt:
-    enabled: false
-    secret: s#cr#t2o2o
+jwt:
+  enabled: false
+  secret: s#cr#t2o2o
 
 git:
   clientId: "d3a25e9930e91076515c"
@@ -29,6 +34,7 @@ git:
 "%test":
   quarkus:
     http:
+      port: 3000
       so-reuse-port: true
       tcp-quick-ack: true
       tcp-cork: true
@@ -40,50 +46,27 @@ git:
       database: guild-code
     log:
       level: INFO
+      min-level: CONFIG
+      syslog:
+        async:
+          overflow: BLOCK
       handler:
         gelf:
           enable: true
           host: localhost
           port: 12201
-    jwt:
-      enabled: false
-      secret: s#cr#t2o2o
+  jwt:
+    enabled: false
+    secret: s#cr#t2o2o
   git:
     clientId: "d3a25e9930e91076515c"
     clientSecret: "aa0337d0f101032cf1e38b11b7371c23aebb6647"
     URL_GITHUB_REDIRECT: "https://github.com/login/oauth/authorize"
-
-"%local":
-  quarkus:
-    http:
-      so-reuse-port: true
-      tcp-quick-ack: true
-      tcp-cork: true
-      tcp-fast-open: true
-    vertx:
-      prefer-native-transport: true
-    mongodb:
-      connection-string: mongodb://127.0.0.1:27017
-      database: guild-code
-    log:
-      level: INFO
-      handler:
-        gelf:
-          enable: true
-          host: localhost
-          port: 12201
-    jwt:
-      enabled: false
-      secret: s#cr#t2o2o
-  git:
-    clientId: "d3a25e9930e91076515c"
-    clientSecret: "aa0337d0f101032cf1e38b11b7371c23aebb6647"
-    URL_GITHUB_REDIRECT: "https://github.com/login/oauth/authorize"
-  address: "create-jwt"
 
 "%docker":
   quarkus:
     http:
+      port: 3000
       so-reuse-port: true
       tcp-quick-ack: true
       tcp-cork: true
@@ -95,9 +78,18 @@ git:
       database: ${MONGO_DATABASE}
     log:
       level: INFO
-    jwt:
-      enabled: false
-      secret: s#cr#t2o2o
+      min-level: CONFIG
+      syslog:
+        async:
+          overflow: BLOCK
+      handler:
+        gelf:
+          enable: true
+          host: localhost
+          port: 12201
+  jwt:
+    enabled: false
+    secret: s#cr#t2o2o
   git:
     clientId: "${clientId}"
     clientSecret: "${clientSecret}"

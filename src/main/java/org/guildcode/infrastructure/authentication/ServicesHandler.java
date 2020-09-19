@@ -55,7 +55,7 @@ public class ServicesHandler {
             storage.create();
             JwtVerification verification = new JwtVerification(true, null, null);
             storage.put("__JWT_VERIFICATION__", verification);
-            claims = Json.createBuilderFactory(new HashMap()).createObjectBuilder()
+            claims = Json.createBuilderFactory(new HashMap<String, String>()).createObjectBuilder()
                     .add("email", "carlos.fattor@gmail.com")
                     .add("nome", "Carlos Fattro").build();
             storage.put("__JWT_CLAIMS__", claims);

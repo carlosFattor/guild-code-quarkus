@@ -127,7 +127,7 @@ public final class ResponseResults {
     }
 
     public static ResponseResult unprocessedFromDescriptions(String... descriptions) {
-        List<FailureDetailDto> details = (descriptions == null) ? null : (List) Arrays.stream(descriptions).map((description) -> {
+        List<FailureDetailDto> details = (descriptions == null) ? null : Arrays.stream(descriptions).map((description) -> {
             FailureDetailDto failureDetail = new FailureDetailDto();
             failureDetail.setDescription(description);
             return failureDetail;
@@ -142,7 +142,7 @@ public final class ResponseResults {
     }
 
     public static ResponseResult badRequestFromDescriptions(String... descriptions) {
-        List<FailureDetailDto> details = descriptions == null ? null : (List) Arrays.stream(descriptions).map((description) -> {
+        List<FailureDetailDto> details = descriptions == null ? null : Arrays.stream(descriptions).map((description) -> {
             FailureDetailDto failureDetail = new FailureDetailDto();
             failureDetail.setDescription(description);
             return failureDetail;

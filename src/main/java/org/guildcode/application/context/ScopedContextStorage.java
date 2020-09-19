@@ -7,13 +7,13 @@ import java.util.Map;
 @RequestScoped
 public class ScopedContextStorage {
 
-    private static Map<String, Object> storage = new HashMap();
+    private static Map<String, Object> storage = null;
 
     public ScopedContextStorage() {
     }
 
     public void create() {
-        storage = new HashMap();
+        storage = new HashMap<String, Object>();
     }
 
     public void put(String key, Object value) {

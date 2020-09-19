@@ -12,7 +12,7 @@ import java.time.ZoneId;
 import java.util.Date;
 
 @ConfigProperties(
-        prefix = "quarkus.jwt"
+        prefix = "jwt"
 )
 @Data
 public class JwtCreateToken {

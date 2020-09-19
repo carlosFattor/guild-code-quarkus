@@ -4,7 +4,7 @@ import io.quarkus.arc.config.ConfigProperties;
 import lombok.Data;
 
 @ConfigProperties(
-        prefix = "quarkus.jwt"
+        prefix = "jwt"
 )
 @Data
 public class JwtConfiguration {

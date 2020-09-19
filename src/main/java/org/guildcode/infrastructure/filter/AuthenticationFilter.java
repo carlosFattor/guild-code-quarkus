@@ -7,7 +7,6 @@ import org.guildcode.application.result.ResponseStatus;
 import org.guildcode.infrastructure.authentication.ServicesHandler;
 import org.guildcode.security.jwt.JwtConfiguration;
 
-import javax.enterprise.context.control.RequestContextController;
 import javax.inject.Inject;
 import javax.json.bind.Jsonb;
 
@@ -24,14 +23,12 @@ public class AuthenticationFilter {
     @Inject
     ScopedContextStorage storage;
 
-    @Inject
-    RequestContextController requestContextController;
-
     @RouteFilter(1)
     void filterAuthorization(RoutingContext rc) {
-
+        
+        final var authentication = ServicesHandler.handleAuthentication(jwtConfiguration, rc, storage, jsonb);
+        
         if (rc.request().uri().contains("api")) {
-            final var authentication = ServicesHandler.handleAuthentication(jwtConfiguration, rc, storage, jsonb);
 
             if (isNull(authentication) || !authentication.hasSucceeded()) {
                 rc.response().setStatusCode(ResponseStatus.UNAUTHORIZED.toNumber());

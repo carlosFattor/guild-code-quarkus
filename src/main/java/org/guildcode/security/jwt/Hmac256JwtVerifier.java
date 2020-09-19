@@ -1,17 +1,17 @@
 package org.guildcode.security.jwt;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.JWTVerifier.BaseVerification;
-import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.auth0.jwt.interfaces.DecodedJWT;
-import org.guildcode.infrastructure.authentication.JwtVerifier;
-
-import java.io.UnsupportedEncodingException;
 import java.time.Clock;
 import java.util.Date;
 import java.util.Objects;
+
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.JWTVerifier.BaseVerification;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.DecodedJWT;
+
+import org.guildcode.infrastructure.authentication.JwtVerifier;
 
 public class Hmac256JwtVerifier implements JwtVerifier {
 
